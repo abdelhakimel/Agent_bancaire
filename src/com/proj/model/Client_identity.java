@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import com.proj.Dao.ClientDao;
+import com.proj.Dao.LoginDAO;
 
 import util.SessionUtils;
 
@@ -48,7 +49,8 @@ public class Client_identity extends UserMapping implements Serializable{
 
 	}
 	    private String confirmedPassword;
-	    
+		private double limite;
+
 
 	public Client_identity(String nom, String prenom, String adresse, String telephone, String email, String username,
 			String password, String cin, boolean activated, int codePostal, Agent agent , Role role) {
@@ -116,7 +118,7 @@ public class Client_identity extends UserMapping implements Serializable{
 		try {
 			ClientDao clDao=new ClientDao();
 			Agent ag=new Agent();
-			ag.setUsername(SessionUtils.getUserName());
+			ag.setUsername(SessionUtils.getToken());
 			this.setAgent(ag);
 			clDao.addClient(this);
 			
@@ -136,6 +138,12 @@ public class Client_identity extends UserMapping implements Serializable{
 	}
 	public void setConfirmedPassword(String confirmedPassword) {
 		this.confirmedPassword = confirmedPassword;
+	}
+	public double getLimite() {
+		return limite;
+	}
+	public void setLimite(double limite) {
+		this.limite = limite;
 	}
 
 	

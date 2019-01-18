@@ -8,7 +8,7 @@
       
     <ui:composition template="WEB-INF/template/layout.xhtml">
         <ui:define name="content">
-			<ui:param name="list" value="#{clienDao.allClient}" />
+			<ui:param name="list" value="#{clienDao.allNotActivatedClients}" />
 				<b:container>
 				
 				<b:column span="10" offset="1">
@@ -27,7 +27,7 @@
 				<b:dataTableColumn value="#{client.telephone}"><f:facet name="header">Téléphone</f:facet></b:dataTableColumn>
 				<b:dataTableColumn>
 				<f:facet name="header"> Activé ?</f:facet>
-				      <b:commandButton value="#{client.activated?'Désactiver':'Activer'}" icon="cog" look="#{client.activated?'success':'warning'}" onclick="ajax:client.activated?clienDao.desactivateCompte(client.id):clienDao.activateCompte(client.id)"  update="listrecord">
+				      <b:commandButton value="#{client.activated?'Désactiver':'Activer'}" icon="cog" look="#{client.activated?'success':'warning'}"  action="#{clienDao.activateCompte(client)}">
 				      </b:commandButton>
 				</b:dataTableColumn>
 		

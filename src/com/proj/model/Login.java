@@ -14,7 +14,8 @@ import com.proj.Dao.LoginDAO;
 import util.SessionUtils;
 
 
-@ManagedBean
+@ManagedBean(name="loginBean")
+@SessionScoped
 public class Login implements Serializable {
 
 	private static final long serialVersionUID = 1094801825228386363L;
@@ -70,8 +71,10 @@ public class Login implements Serializable {
 		if (valid!=null) {
 			HttpSession session = SessionUtils.getSession();
 			session.setAttribute("username", username);
-			session.setAttribute("userToken", valid);
-			System.out.println(valid);
+			session.setAttribute("token", valid);
+			System.out.println("Validate user :"+valid);
+			System.out.println("Session get :"+SessionUtils.getToken());
+			this.token=valid;
 			return "agent";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(
@@ -85,8 +88,7 @@ public class Login implements Serializable {
 
 	//logout event, invalidate session
 	public String logout() {
-		HttpSession session = SessionUtils.getSession();
-		session.invalidate();
+	 SessionUtils.logout();
 		return "login";
 	}
 

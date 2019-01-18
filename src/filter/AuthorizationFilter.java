@@ -26,11 +26,13 @@ public class AuthorizationFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
+
 		try {
 
 			HttpServletRequest reqt = (HttpServletRequest) request;
 			HttpServletResponse resp = (HttpServletResponse) response;
 			HttpSession ses = reqt.getSession(false);
+			
 
 			String reqURI = reqt.getRequestURI();
 			if (reqURI.indexOf("/login.xhtml") >= 0
