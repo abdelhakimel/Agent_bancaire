@@ -373,7 +373,7 @@ public List<Client_identity> getAllClient()
 			con.setDoOutput(true);
 			OutputStream os = con.getOutputStream();
 			Gson gson = new Gson();
-			os.write(gson.toJson(cl.getId()).toString().getBytes("UTF-8"));
+			os.write(gson.toJson(cl).toString().getBytes("UTF-8"));
 			os.flush();
 			os.close();
 			System.out.println(gson.toJson(cl).toString());
