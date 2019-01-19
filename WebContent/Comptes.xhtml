@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"                                                                                                                                       
+          xmlns:h="http://java.sun.com/jsf/html"                                                                                                                                     
+          xmlns:f="http://java.sun.com/jsf/core"                                                                                                                                     
+          xmlns:b="http://bootsfaces.net/ui"                                                                                                                                         
+          xmlns:ui="http://java.sun.com/jsf/facelets"                                                                                                                                
+          xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
+      
+    <ui:composition template="WEB-INF/template/layout.xhtml">
+        <ui:define name="content">
+			<ui:param name="list" value="#{clienDao.allClient}" />
+				<b:container>
+				
+				<b:column span="10" offset="1">
+				<h:form id="listrecord">
+				<b:dataTable var="client" value="#{list}" 
+				caption="liste des clients "
+				              
+				               >
+				<b:dataTableColumn value="#{client.nom}" id="editable" data-search="#{client.prenom} #{client.nom}">
+				<f:facet name="header">Nom</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{client.prenom}"><f:facet name="header">Prénom</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{client.cin}"><f:facet name="header">CIN</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{client.codePostal}"><f:facet name="header">Code Postal</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{client.adresse}"><f:facet name="header">Adresse</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{client.email}"> <f:facet name="header">E-mail</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{client.telephone}"><f:facet name="header">Téléphone</f:facet></b:dataTableColumn>
+				<b:dataTableColumn >
+				<f:facet name="header">Activation </f:facet>
+				      <b:commandButton value="#{client.activated?'Désactiver':'Activer'}" icon="cog" look="#{client.activated?'warning':'success'}"  action="#{clienDao.SwitchactivateCompte(client,client.activated?false:true)}">
+				      </b:commandButton>
+				    
+				</b:dataTableColumn>
+		<b:dataTableColumn >
+				<f:facet name="header">Suppression </f:facet>
+				  <b:commandButton value="Supprimer" icon="truch" look="danger"  action="#{clienDao.deleteCompte(client)}">
+				      </b:commandButton>
+				</b:dataTableColumn>
+				</b:dataTable>
+				</h:form>
+				</b:column>
+				</b:container>
+</ui:define>
+</ui:composition>
+</html>

@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+      xmlns:b="http://bootsfaces.net/ui"> 
 
 <b:navBar brand="Brand" brandHref="getAllClient.xhtml" fluid="true">
   <f:facet name="kebab">
@@ -14,10 +13,7 @@
     
     <b:navLink value="Comptes" href="Comptes.xhtml"></b:navLink>
     <b:navLink value="Reclamations" href="Reclamations.xhtml"></b:navLink>
-   <h:form class="navbar-form navbar-left hidden-md hidden-sm hidden-xs" >
-       <b:commandButton value="Déconnecter" pull="right" action="#{loginBean.logout}"></b:commandButton>
    
-   </h:form>
     
   </b:navbarLinks>
 </b:navBar> 

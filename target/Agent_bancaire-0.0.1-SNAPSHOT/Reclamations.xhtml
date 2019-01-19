@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"                                                                                                                                       
+          xmlns:h="http://java.sun.com/jsf/html"                                                                                                                                     
+          xmlns:f="http://java.sun.com/jsf/core"                                                                                                                                     
+          xmlns:b="http://bootsfaces.net/ui"                                                                                                                                         
+          xmlns:ui="http://java.sun.com/jsf/facelets"                                                                                                                                
+          xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
+      
+    <ui:composition template="WEB-INF/template/layout.xhtml">
+        <ui:define name="content">
+			<ui:param name="list" value="#{ReclamationDAO.allReclamations}" />
+				<b:container>
+				
+				<b:column span="10" offset="1">
+				<h:form id="listrecord">
+				<b:dataTable var="rec" value="#{list}" 
+				caption="liste des clients "
+				               >
+				    <b:dataTableColumn value="#{rec.dateDepot}"><f:facet name="header">Date </f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{rec.client.nom}" id="editable" data-search="#{client.prenom} #{client.nom}">
+				<f:facet name="header">Nom</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{rec.client.prenom}"><f:facet name="header">Prénom</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{rec.corps}"><f:facet name="header">Corp</f:facet></b:dataTableColumn>
+				<b:dataTableColumn value="#{rec.etat}"><f:facet name="header">Etat</f:facet></b:dataTableColumn>
+				<b:dataTableColumn >
+				<f:facet name="header">Verification </f:facet>
+				      <b:commandButton value="Verifier" icon="cog" look="warning"  action="#{ReclamationDAO.verify(rec)}">
+				      </b:commandButton>
+				    
+				</b:dataTableColumn>
+		
+				</b:dataTable>
+				</h:form>
+				</b:column>
+				</b:container>
+</ui:define>
+</ui:composition>
+</html>

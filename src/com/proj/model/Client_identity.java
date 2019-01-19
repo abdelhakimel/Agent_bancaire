@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 import com.proj.Dao.ClientDao;
@@ -25,6 +26,8 @@ public class Client_identity extends UserMapping implements Serializable{
 	/**
 	 * 
 	 */
+	
+	
 	private static final long serialVersionUID = 1L;
 	
 	private int codePostal;
@@ -117,9 +120,7 @@ public class Client_identity extends UserMapping implements Serializable{
 	{
 		try {
 			ClientDao clDao=new ClientDao();
-			Agent ag=new Agent();
-			ag.setUsername(SessionUtils.getToken());
-			this.setAgent(ag);
+			
 			clDao.addClient(this);
 			
 		} catch (IOException e) {

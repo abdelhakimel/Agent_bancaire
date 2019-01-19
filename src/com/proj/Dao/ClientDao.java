@@ -71,11 +71,14 @@ public class ClientDao {
 	    
 	}
 	public void addClient(Client_identity cl) throws Exception {
-
+		System.out.println("ADD "+SessionUtils.getUserName());
+		Agent ag=new Agent();
+		ag.setUsername(SessionUtils.getUserName());
+		cl.setAgent(ag);
 		URL obj = new URL("http://localhost:8080/Agent/addClient");
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod("POST");
-		con.setRequestProperty("authorization",login.getToken());
+		con.setRequestProperty("authorization",SessionUtils.getToken());
 				con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 		con.setRequestProperty("Accept", "application/json");
 
@@ -149,7 +152,6 @@ public class ClientDao {
 	
 		}
 
-	
 	public Client_identity getClient(int id)
 	{
 		DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
@@ -181,43 +183,63 @@ public class ClientDao {
 	      return cl;
 		
 	}
-	public Client_identity desactivateCompte(int id)
+	public int desactivateCompte(Client_identity  cl)
 	{
-		DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
-		defaultClientConfig.getClasses().add(JacksonJsonProvider.class);
-		Client client = Client.create(defaultClientConfig);
-		 
-	      // Create Client based on Config
-	 
-	      WebResource webResource = client.resource("http://localhost:8080/Agent/desactivateCompte?id_client="+id);
-	 
-	      Builder builder = webResource.accept(MediaType.APPLICATION_JSON) //
-	              .header("content-type", MediaType.APPLICATION_JSON).header("authorization",login.getToken());
-	 
-	      ClientResponse response = builder.get(ClientResponse.class);
-	 
-	      // Status 200 is successful.
-	      if (response.getStatus() != 200) {
-	          System.out.println("Failed with HTTP Error code: " + response.getStatus());
-	         String error= response.getEntity(String.class);
-	         System.out.println("Error: "+error);
-	         return null;
-	      }
-	 
-	      System.out.println("Output from Server .... \n");
-	 
-	      Client_identity cl = (Client_identity) response.getEntity(Client_identity.class);
-	 
-	      System.out.println("Emp No .... " + cl.getNom());
-	      System.out.println("Emp Name .... " + cl.getAdresse());
-	      
-	      return cl;
+		System.out.println("method activate");
+	Agent ag=new Agent();
+	ag.setUsername( login.getUsername());
+	cl.setAgent(ag);
+	URL obj;
+	int responseCode = 0;
+	try {
+		obj = new URL("http://localhost:8080/Agent/desactivateCompte");
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		con.setRequestMethod("POST");
+		con.setRequestProperty("authorization",login.getToken());
+				con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		con.setRequestProperty("Accept", "application/json");
+		con.setDoOutput(true);
+		OutputStream os = con.getOutputStream();
+		Gson gson = new Gson();
+		os.write(gson.toJson(cl).toString().getBytes("UTF-8"));
+		os.flush();
+		os.close();
+		System.out.println(gson.toJson(cl).toString());
+		 responseCode = con.getResponseCode();
+		System.out.println("POST Response Code from add :: " + responseCode);
+
+		if (responseCode == HttpURLConnection.HTTP_OK) { //success
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+
+			// print result
+			System.out.println(response.toString());
+		} else {
+			System.out.println("POST request not worked");
+		}
+	} catch (MalformedURLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	return responseCode;
 		
 	}
 	public int activateCompte(Client_identity cl) 
+
 	{	System.out.println("method activate");
 		Agent ag=new Agent();
-		ag.setUsername(SessionUtils.getUserName());
+		ag.setUsername(login.getUsername());
 		cl.setAgent(ag);
 		URL obj;
 		int responseCode = 0;
@@ -264,19 +286,22 @@ public class ClientDao {
 		
 		return responseCode;
 	}
-
-	public List<Client_identity> getAllClient()
+	
+	
+public List<Client_identity> getAllClient()
 	{
+		System.out.println("GetAll function");
 		DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
 		defaultClientConfig.getClasses().add(JacksonJsonProvider.class);
 		Client client = Client.create(defaultClientConfig);
 		 
 	      // Create Client based on Config
 	 
-	      WebResource webResource = client.resource("http://localhost:8080/Agent/getAllClients");
+	      WebResource webResource = client.resource("http://localhost:8080/Agent/getAllClients?username="+login.getUsername());
 	      System.out.println("ClientDAo :" +login.getToken());
 	      Builder builder = webResource.accept(MediaType.APPLICATION_JSON) //
 	              .header("content-type", MediaType.APPLICATION_JSON).header("authorization",login.getToken());
+	      
 	      ClientResponse response = builder.get(ClientResponse.class);
 	 
 	      // Status 200 is successful.
@@ -292,13 +317,8 @@ public class ClientDao {
 	 
 	      List<Client_identity> list = response.getEntity(generic);
 	 
-	      System.out.println("Output from Server .... \n");
 	 
-	      for (Client_identity emp : list) {
-	          System.out.println(" --- ");
-	          System.out.println("Emp No .... " + emp.getId());
-	          System.out.println("Emp Name .... " + emp.getNom());
-	      }
+	    
 	      return list;
 	}
 	
@@ -339,5 +359,97 @@ public class ClientDao {
 	      return list;
 	}
 	
-	
+	public int deleteCompte(Client_identity cl)
+	{
+		URL obj;
+		int responseCode = 0;
+		try {
+				obj = new URL("http://localhost:8080/Agent/deleteClient");
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			con.setRequestMethod("DELETE");
+			con.setRequestProperty("authorization",login.getToken());
+					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			con.setRequestProperty("Accept", "application/json");
+			con.setDoOutput(true);
+			OutputStream os = con.getOutputStream();
+			Gson gson = new Gson();
+			os.write(gson.toJson(cl.getId()).toString().getBytes("UTF-8"));
+			os.flush();
+			os.close();
+			System.out.println(gson.toJson(cl).toString());
+			 responseCode = con.getResponseCode();
+			System.out.println("POST Response Code from add :: " + responseCode);
+
+			if (responseCode == HttpURLConnection.HTTP_OK) { //success
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						con.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+
+				// print result
+				System.out.println(response.toString());
+			} else {
+				System.out.println("POST request not worked");
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return responseCode;	
+	}
+	public int SwitchactivateCompte(Client_identity cl,boolean activate)
+	{
+		URL obj;
+		int responseCode = 0;
+		try {
+				obj = new URL("http://localhost:8080/Agent/switchActivation");
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			con.setRequestMethod("POST");
+			con.setRequestProperty("authorization",login.getToken());
+					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			con.setRequestProperty("Accept", "application/json");
+			con.setDoOutput(true);
+			OutputStream os = con.getOutputStream();
+			Gson gson = new Gson();
+			os.write(gson.toJson(cl).toString().getBytes("UTF-8"));
+			os.flush();
+			os.close();
+			System.out.println(gson.toJson(cl).toString());
+			 responseCode = con.getResponseCode();
+			System.out.println("POST Response Code from add :: " + responseCode);
+
+			if (responseCode == HttpURLConnection.HTTP_OK) { //success
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						con.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+
+				// print result
+				System.out.println(response.toString());
+			} else {
+				System.out.println("POST request not worked");
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return responseCode;	}
 }

@@ -1,6 +1,7 @@
 package com.proj.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 
@@ -14,8 +15,9 @@ public class Reclamation implements Serializable {
 	private int id;
 	private String corps;
 	private String etat;
-	
-	
+	private boolean verifie;
+	private Date dateDepot;
+
 	private Client_identity client;
 
 	private Agent agent;
@@ -71,6 +73,22 @@ public class Reclamation implements Serializable {
 
 	public void setEtat(String etat) {
 		this.etat = etat;
+	}
+
+	public boolean isVerifie() {
+		return verifie;
+	}
+
+	public void setVerifie(boolean verifie) {
+		this.verifie = verifie;
+	}
+
+	public Date getDateDepot() {
+		return dateDepot;
+	}
+
+	public void setDateDepot(Date dateDepot) {
+		this.dateDepot = dateDepot;
 	}
 	
 	

@@ -73,8 +73,9 @@ public class Login implements Serializable {
 			session.setAttribute("username", username);
 			session.setAttribute("token", valid);
 			System.out.println("Validate user :"+valid);
-			System.out.println("Session get :"+SessionUtils.getToken());
+			System.out.println("Session get :"+SessionUtils.getUserName());
 			this.token=valid;
+			this.username=username;
 			return "agent";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(
@@ -88,7 +89,7 @@ public class Login implements Serializable {
 
 	//logout event, invalidate session
 	public String logout() {
-	 SessionUtils.logout();
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "login";
 	}
 
