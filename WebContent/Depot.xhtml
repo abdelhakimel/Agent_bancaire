@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"> 
+
+    <ui:composition template="WEB-INF/template/layout.xhtml">
+<ui:define name="content">
+<h1 class="text-center">Déposer des argents </h1>
+<h:form >
+
+<h:inputText value="#{ClientCompte.numcompte}" readonly="true"></h:inputText>
+    <h:inputText value="#{ClientCompte.solde}"  colMd="4" label="Montant :" labelColMd="2" />
+  
+
+  <h:commandButton value="Deposer" action="#{ClientCompte.deposer}" look="success" colMd="2" offset="3"/>
+
+</h:form>
+</ui:define>
+</ui:composition>
+</html>

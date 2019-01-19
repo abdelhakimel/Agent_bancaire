@@ -15,7 +15,7 @@ public class LoginDAO {
 	
 
 	public static String validate(String user, String password) throws IOException {
-		URL obj = new URL("http://localhost:8080/login");
+		URL obj = new URL("https://e-banking-project.herokuapp.com/login");
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod("POST");
 		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

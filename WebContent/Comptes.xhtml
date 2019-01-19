@@ -12,7 +12,7 @@
 			<ui:param name="list" value="#{clienDao.allClient}" />
 				<b:container>
 				
-				<b:column span="10" offset="1">
+				<b:column span="10" >
 				<h:form id="listrecord">
 				<b:dataTable var="client" value="#{list}" 
 				caption="liste des clients "
@@ -32,6 +32,7 @@
 				      </b:commandButton>
 				    
 				</b:dataTableColumn>
+				
 		<b:dataTableColumn >
 				<f:facet name="header">Suppression </f:facet>
 				  <b:commandButton value="Supprimer" icon="truch" look="danger"  action="#{clienDao.deleteCompte(client)}">

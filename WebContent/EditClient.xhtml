@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+    <ui:composition template="WEB-INF/template/layout.xhtml">
+<ui:define name="content">
+<h1 class="text-center">Ajouter un client</h1>
+<h:form  styleClass="form-horizontal">
+
+<div class="form-group col-md-6">
+<label class="control-label col-sm-3">CIN :</label>
+    <div class="col-sm-8">
+<h:inputText id="cin" value="#{editBean.cin}" styleClass="form-control"  required="true" requiredMessage="CIN is a required field" validatorMessage="CIN cannot be less than 6 and not longer than 10 characters" >
+  <f:validateLength minimum="6" maximum="10"/>
+</h:inputText>
+<h:message for="cin" styleClass="text-danger"/>
+</div>
+</div>
+
+<div class="form-group col-md-6">
+<label for="titre" class="control-label col-sm-3" >Nom :</label>
+<div class="col-sm-8">
+<h:inputText id="nom" value="#{editBean.nom}" styleClass="form-control" required="true" requiredMessage="NOM is a required field" validatorMessage="NOM cannot be less than 3 and not longer than 50 characters">
+  <f:validateLength minimum="3" maximum="50"/>
+</h:inputText>
+<h:message for="nom" styleClass="text-danger"/>
+</div>
+</div>
+<div class="form-group col-md-6">
+<label class="control-label col-sm-3" >Prénom :</label>
+<div class="col-sm-8">
+<h:inputText value="#{editBean.prenom}" id="prenom" styleClass="form-control" required="true"  requiredMessage="PRENOM is a required field" validatorMessage="PRENOM cannot be less than 3 and not longer than 60 characters">
+  <f:validateLength minimum="3" maximum="60"/>
+  </h:inputText>
+
+<h:message for="prenom" styleClass="text-danger"/>
+</div>
+</div>
+
+<div class="form-group col-md-6">
+<label class="control-label col-sm-3">Adresse :</label>
+    <div class="col-sm-8">
+<h:inputText id="adresse" value="#{editBean.adresse}" styleClass="form-control"  required="true" requiredMessage="ADDRESS is a required field" validatorMessage="ADDRESS cannot be less than 10 and not longer than 200 characters">
+  <f:validateLength minimum="10" maximum="200"/>
+
+</h:inputText>
+<h:message for="adresse" styleClass="text-danger"/>
+</div>
+</div>
+
+<div class="form-group col-md-6">
+<label class="control-label col-sm-3">Code Postal :</label>
+    <div class="col-sm-8">
+<h:inputText id="code" value="#{editBean.codePostal}" styleClass="form-control"  required="true" requiredMessage="CODE POSTAL is a required field" validatorMessage="Code Postal invalide">
+</h:inputText>
+<h:message for="code" styleClass="text-danger"/>
+</div>
+</div>
+
+<div class="form-group col-md-6">
+<label class="control-label col-sm-3">Télèphone :</label>
+<div class="col-sm-8">
+<h:inputText id="telephone" value="#{editBean.telephone}" styleClass="form-control"  required="true" requiredMessage="TELEPHONE is a required field" validatorMessage="TELEPHONE must be in 10 characters">
+<f:validateRegex pattern="^([+]?[\d]+)?$" />
+  <f:validateLength minimum="10" maximum="10"/>
+</h:inputText>
+<h:message for="telephone" styleClass="text-danger"/>
+</div>
+</div>
+
+<div class="form-group col-md-6">
+<label class="control-label col-sm-3">E-mail :</label>
+    <div class="col-sm-8">
+<h:inputText id="email" value="#{editBean.email}" styleClass="form-control"  required="true" requiredMessage="EMAIL is a required field" validatorMessage="invalid email address">
+<f:validateRegex
+		pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+</h:inputText>
+<h:message for="email" styleClass="text-danger"/>
+</div>
+</div>
+
+<div class="form-group col-md-6">
+<label class="control-label col-sm-3">Username :</label>
+    <div class="col-sm-8">
+<h:inputText id="username" value="#{editBean.username}"  styleClass="form-control"   required="true" requiredMessage="USERNAME is a required field" validatorMessage="USERNAME cannot be less than 10 characters">
+  <f:validateLength minimum="10" />
+</h:inputText>
+<h:message for="username" styleClass="text-danger"/>
+</div></div>
+
+<div class="row">
+<h:commandButton action="#{editBean.save}" value="Edit" styleClass="btn btn-success col-sm-offset-3 col-sm-2" />
+<h:commandButton type="reset" value="Annuler" styleClass="btn btn-danger col-sm-offset-1 col-sm-2" />
+</div>
+</h:form>
+</ui:define>
+</ui:composition>
+</html>

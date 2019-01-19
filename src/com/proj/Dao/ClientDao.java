@@ -19,6 +19,7 @@ import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import com.google.gson.Gson;
 import com.proj.model.Agent;
 import com.proj.model.Client_identity;
+import com.proj.model.EditClientBean;
 import com.proj.model.Login;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -41,7 +42,7 @@ public class ClientDao {
 		this.login = login;
 	}
 	public  void MyGETRequest() throws IOException {
-	    URL urlForGetRequest = new URL("http://localhost:8080/Agent/getAllClients");
+	    URL urlForGetRequest = new URL("https://e-banking-project.herokuapp.com/Agent/getAllClients");
 	    HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
 	    conection.setRequestMethod("GET");
 		conection.setRequestProperty("authorization",login.getToken());
@@ -71,11 +72,10 @@ public class ClientDao {
 	    
 	}
 	public void addClient(Client_identity cl) throws Exception {
-		System.out.println("ADD "+SessionUtils.getUserName());
 		Agent ag=new Agent();
 		ag.setUsername(SessionUtils.getUserName());
 		cl.setAgent(ag);
-		URL obj = new URL("http://localhost:8080/Agent/addClient");
+		URL obj = new URL("https://e-banking-project.herokuapp.com/Agent/addClient");
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod("POST");
 		con.setRequestProperty("authorization",SessionUtils.getToken());
@@ -114,7 +114,7 @@ public class ClientDao {
 		}
 	public void editClient(Client_identity cl) throws Exception {
 
-		URL obj = new URL("http://localhost:8080/Agent/editClient");
+		URL obj = new URL("https://e-banking-project.herokuapp.com/Agent/editClient");
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod("POST");
 		con.setRequestProperty("authorization",login.getToken());
@@ -160,7 +160,7 @@ public class ClientDao {
 		 
 	      // Create Client based on Config
 	 
-	      WebResource webResource = client.resource("http://localhost:8080/Agent/getClient?id_client="+id);
+	      WebResource webResource = client.resource("https://e-banking-project.herokuapp.com/Agent/getClient?id_client="+id);
 	 
 	      Builder builder = webResource.accept(MediaType.APPLICATION_JSON) //
 	              .header("content-type", MediaType.APPLICATION_JSON).header("authorization",login.getToken());
@@ -176,14 +176,11 @@ public class ClientDao {
 	 
 	 
 	      Client_identity cl = (Client_identity) response.getEntity(Client_identity.class);
-	 
-	      System.out.println("Emp No .... " + cl.getNom());
-	      System.out.println("Emp Name .... " + cl.getAdresse());
 	      
 	      return cl;
 		
 	}
-	public int desactivateCompte(Client_identity  cl)
+	public void desactivateCompte(Client_identity  cl)
 	{
 		System.out.println("method activate");
 	Agent ag=new Agent();
@@ -192,7 +189,7 @@ public class ClientDao {
 	URL obj;
 	int responseCode = 0;
 	try {
-		obj = new URL("http://localhost:8080/Agent/desactivateCompte");
+		obj = new URL("https://e-banking-project.herokuapp.com/Agent/desactivateCompte");
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod("POST");
 		con.setRequestProperty("authorization",login.getToken());
@@ -232,10 +229,9 @@ public class ClientDao {
 		e.printStackTrace();
 	}
 	
-	return responseCode;
 		
 	}
-	public int activateCompte(Client_identity cl) 
+	public void activateCompte(Client_identity cl) 
 
 	{	System.out.println("method activate");
 		Agent ag=new Agent();
@@ -244,7 +240,7 @@ public class ClientDao {
 		URL obj;
 		int responseCode = 0;
 		try {
-			obj = new URL("http://localhost:8080/Agent/activateCompte");
+			obj = new URL("https://e-banking-project.herokuapp.com/Agent/activateCompte");
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("POST");
 			con.setRequestProperty("authorization",login.getToken());
@@ -284,7 +280,6 @@ public class ClientDao {
 			e.printStackTrace();
 		}
 		
-		return responseCode;
 	}
 	
 	
@@ -297,7 +292,7 @@ public List<Client_identity> getAllClient()
 		 
 	      // Create Client based on Config
 	 
-	      WebResource webResource = client.resource("http://localhost:8080/Agent/getAllClients?username="+login.getUsername());
+	      WebResource webResource = client.resource("https://e-banking-project.herokuapp.com/Agent/getAllClients?username="+login.getUsername());
 	      System.out.println("ClientDAo :" +login.getToken());
 	      Builder builder = webResource.accept(MediaType.APPLICATION_JSON) //
 	              .header("content-type", MediaType.APPLICATION_JSON).header("authorization",login.getToken());
@@ -330,7 +325,7 @@ public List<Client_identity> getAllClient()
 		 
 	      // Create Client based on Config
 	 
-	      WebResource webResource = client.resource("http://localhost:8080/Agent/getAllNotActivatedClients");
+	      WebResource webResource = client.resource("https://e-banking-project.herokuapp.com/Agent/getAllNotActivatedClients");
 	      System.out.println("ClientDAo :" +login.getToken());
 	      Builder builder = webResource.accept(MediaType.APPLICATION_JSON) //
 	              .header("content-type", MediaType.APPLICATION_JSON).header("authorization",login.getToken());
@@ -359,12 +354,12 @@ public List<Client_identity> getAllClient()
 	      return list;
 	}
 	
-	public int deleteCompte(Client_identity cl)
+	public void deleteCompte(Client_identity cl)
 	{
 		URL obj;
 		int responseCode = 0;
 		try {
-				obj = new URL("http://localhost:8080/Agent/deleteClient");
+				obj = new URL("https://e-banking-project.herokuapp.com/Agent/deleteClient");
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("DELETE");
 			con.setRequestProperty("authorization",login.getToken());
@@ -404,14 +399,14 @@ public List<Client_identity> getAllClient()
 			e.printStackTrace();
 		}
 		
-		return responseCode;	
 	}
-	public int SwitchactivateCompte(Client_identity cl,boolean activate)
+	
+	public void SwitchactivateCompte(Client_identity cl,boolean activate)
 	{
 		URL obj;
 		int responseCode = 0;
 		try {
-				obj = new URL("http://localhost:8080/Agent/switchActivation");
+				obj = new URL("https://e-banking-project.herokuapp.com/Agent/switchActivation");
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("POST");
 			con.setRequestProperty("authorization",login.getToken());
@@ -425,7 +420,6 @@ public List<Client_identity> getAllClient()
 			os.close();
 			System.out.println(gson.toJson(cl).toString());
 			 responseCode = con.getResponseCode();
-			System.out.println("POST Response Code from add :: " + responseCode);
 
 			if (responseCode == HttpURLConnection.HTTP_OK) { //success
 				BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -439,7 +433,6 @@ public List<Client_identity> getAllClient()
 				in.close();
 
 				// print result
-				System.out.println(response.toString());
 			} else {
 				System.out.println("POST request not worked");
 			}
@@ -451,5 +444,45 @@ public List<Client_identity> getAllClient()
 			e.printStackTrace();
 		}
 		
-		return responseCode;	}
+			}
+	public void EditClient(EditClientBean cl) throws IOException {
+		
+		
+		URL obj = new URL("https://e-banking-project.herokuapp.com/Agent/editClient");
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		con.setRequestMethod("POST");
+		con.setRequestProperty("authorization",SessionUtils.getToken());
+				con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		con.setRequestProperty("Accept", "application/json");
+
+		// For POST only - START
+		con.setDoOutput(true);
+		OutputStream os = con.getOutputStream();
+		Gson gson = new Gson();
+		os.write(gson.toJson(cl).toString().getBytes("UTF-8"));
+		os.flush();
+		os.close();
+		// For POST only - END
+		System.out.println(gson.toJson(cl).toString());
+		int responseCode = con.getResponseCode();
+		System.out.println("POST Response Code from add :: " + responseCode);
+
+		if (responseCode == HttpURLConnection.HTTP_OK) { //success
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+
+			// print result
+			System.out.println(response.toString());
+		} else {
+			System.out.println("POST request not worked");
+		}
+		
+	}
 }

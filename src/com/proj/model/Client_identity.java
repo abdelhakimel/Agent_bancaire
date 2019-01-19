@@ -8,13 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 import com.proj.Dao.ClientDao;
-import com.proj.Dao.LoginDAO;
 
-import util.SessionUtils;
 
 
 
@@ -122,7 +119,7 @@ public class Client_identity extends UserMapping implements Serializable{
 			ClientDao clDao=new ClientDao();
 			
 			clDao.addClient(this);
-			
+			return "index";
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
